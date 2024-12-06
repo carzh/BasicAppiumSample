@@ -1,3 +1,10 @@
+I forked this repo to try to get a working version of the xunit sample. 
+
+This working version is on the branch xunit-working-8 (required an update of what dotnet version was being used).
+
+---------------------------------------
+
+
 Check out the sample on the official .NET Samples browser: https://learn.microsoft.com/samples/dotnet/maui-samples/uitest-appium-nunit/
 
 You can also use xUnit, which you can see on this branch: https://github.com/jfversluis/BasicAppiumSample/tree/xunit
