@@ -3,13 +3,23 @@ using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Enums;
 using OpenQA.Selenium.Appium.Mac;
 
+using Xunit.Abstractions;
+
 namespace UITests;
 
 public class AppiumSetup : IDisposable
 {
 	private static AppiumDriver? driver;
 
+	private static AsyncLocal<ITestOutputHelper> s_asyncLocalOutput = new AsyncLocal<ITestOutputHelper>();
+
 	public static AppiumDriver App => driver ?? throw new NullReferenceException("AppiumDriver is null");
+
+	public static ITestOutputHelper Current
+	{
+		get => s_asyncLocalOutput.Value;
+		set => s_asyncLocalOutput.Value = value;
+	}
 
 	public AppiumSetup()
 	{
@@ -24,7 +34,7 @@ public class AppiumSetup : IDisposable
 			// Always Mac for Mac
 			PlatformName = "Mac",
 			// The full path to the .app file to test
-			App = "/path/to/MauiApp/bin/Debug/net7.0-maccatalyst/maccatalyst-x64/BasicAppiumSample.app",
+			App = "/path/to/MauiApp/bin/Debug/net8.0-maccatalyst/maccatalyst-x64/BasicAppiumSample.app",
 		};
 
 		// Setting the Bundle ID is required, else the automation will run on Finder

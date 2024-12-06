@@ -1,6 +1,7 @@
 ﻿using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace UITests;
 
@@ -17,6 +18,8 @@ public sealed class UITestsCollectionDefinition : ICollectionFixture<AppiumSetup
 [Collection("UITests")]
 public abstract class BaseTest
 {
+
+	public BaseTest(ITestOutputHelper output) => AppiumSetup.Current = output;
 	protected AppiumDriver App => AppiumSetup.App;
 
 	// This could also be an extension method to AppiumDriver if you prefer

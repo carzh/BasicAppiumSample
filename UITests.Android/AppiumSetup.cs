@@ -1,13 +1,23 @@
 ﻿using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Android;
 
+using Xunit.Abstractions;
+
 namespace UITests;
 
 public class AppiumSetup : IDisposable
 {
 	private static AppiumDriver? driver;
 
+	private static AsyncLocal<ITestOutputHelper> s_asyncLocalOutput = new AsyncLocal<ITestOutputHelper>();
+
 	public static AppiumDriver App => driver ?? throw new NullReferenceException("AppiumDriver is null");
+
+	public static ITestOutputHelper Current
+	{
+		get => s_asyncLocalOutput.Value;
+		set => s_asyncLocalOutput.Value = value;
+	}
 
 	public AppiumSetup()
 	{

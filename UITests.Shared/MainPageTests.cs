@@ -1,4 +1,5 @@
 ﻿using Xunit;
+using Xunit.Abstractions;
 
 // You will have to make sure that all the namespaces match
 // between the different platform specific projects and the shared
@@ -10,6 +11,10 @@ namespace UITests;
 // This is an example of tests that do not need anything platform specific
 public class MainPageTests : BaseTest
 {
+	public MainPageTests(ITestOutputHelper output) : base(output)
+	{
+	}
+
 	[Fact]
 	public void AppLaunches()
 	{

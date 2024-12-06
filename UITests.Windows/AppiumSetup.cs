@@ -1,19 +1,32 @@
 ﻿using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
 
+using Xunit.Abstractions;
+
 namespace UITests;
 
 public class AppiumSetup : IDisposable
 {
 	private static AppiumDriver? driver;
 
+	private static AsyncLocal<ITestOutputHelper> s_asyncLocalOutput = new AsyncLocal<ITestOutputHelper>();
+
 	public static AppiumDriver App => driver ?? throw new NullReferenceException("AppiumDriver is null");
+
+	public static ITestOutputHelper Current
+	{
+		get => s_asyncLocalOutput.Value;
+		set => s_asyncLocalOutput.Value = value;
+	}
 
 	public AppiumSetup()
 	{
+
+		Current?.WriteLine("BEFORE START APPIUM LOCAL SERVER");
 		// If you started an Appium server manually, make sure to comment out the next line
 		// This line starts a local Appium server for you as part of the test run
 		AppiumServerHelper.StartAppiumLocalServer();
+		Current?.WriteLine("BEFORE START APPIUM LOCAL SERVER");
 
 		var windowsOptions = new AppiumOptions
 		{
@@ -27,7 +40,8 @@ public class AppiumSetup : IDisposable
 
 		// Note there are many more options that you can use to influence the app under test according to your needs
 
-		driver = new WindowsDriver(windowsOptions);
+		Current?.WriteLine("BEFORE creation of windows driver");
+		driver = new WindowsDriver(new Uri("http://127.0.0.1:4723/wd/hub"), windowsOptions);
 	}
 
 	public void Dispose()
